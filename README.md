@@ -1,7 +1,6 @@
 # Emergency-Shutdown-NT
 
-An utility to shutdown or restart or shutdown windows instantly
-
+An utility to shutdown or restart windows instantly
 
 > [!WARNING]
 > This script will attempt to shut down your system by triggering `NtShutdownSystem()` directly. It is intended for emergency situations only, and generally, requires Administrators Privilege to execute. Do not run it unless you are prepared for an immediate hard shutdown.
@@ -57,6 +56,7 @@ There are 2 ways to use the code:
      ```bash
      YOUR_DOWNLOAD_LOCATION\EmergencyShutdown.exe --YOUR_OPTION
      ```
+  
 - Execute the source code
    - Download / Clone the repo and execute the `.py` source code in your Terminal. Run the Terminal as an administrator.
      ```bash
@@ -72,4 +72,3 @@ Replace `YOUR_OPTION` with the options above.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
