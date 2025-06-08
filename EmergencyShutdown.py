@@ -102,7 +102,6 @@ class ShutdownAction(Enum):
     - All drivers and services shut down
     - System is then powered off
     
-    
     The most commonly used option for emergency shutdowns
     """
 
