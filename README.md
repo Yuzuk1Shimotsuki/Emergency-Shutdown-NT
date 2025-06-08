@@ -53,7 +53,7 @@ So, I decided to rewrite the entire script from C++ into Python. And that's pret
 
 There are 2 ways to use the code:
 - Using the `.exe` file
-   - Head over to [Release](https://github.com/Yuzuk1Shimotsuki/Emergency-Shutdown-NT/releases) section and download the lastest pre-compiled .exe file. Run it as an administrator.
+   - Head over to [Release](https://github.com/Yuzuk1Shimotsuki/Emergency-Shutdown-NT/releases) section and download the lastest pre-compiled `.exe` file. Run it as an administrator.
      ```bash
      YOUR_DOWNLOAD_LOCATION\EmergencyShutdown.exe --YOUR_OPTION
      ```
