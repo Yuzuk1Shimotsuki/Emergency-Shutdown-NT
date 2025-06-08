@@ -1,6 +1,6 @@
 # Emergency-Shutdown-NT
 
-An utility to shutdown or restart windows instantly
+A Python utility to shutdown or restart Windows instantly
 
 > [!WARNING]
 > This script will attempt to shut down your system by triggering `NtShutdownSystem()` directly. It is intended for emergency situations only, and generally, requires Administrators Privilege to execute. Do not run it unless you are prepared for an immediate hard shutdown.
