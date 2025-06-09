@@ -18,7 +18,7 @@ One of the perfect example of Python to interact with low-level system APIs, sim
 
 
 > [!NOTE]
-> The souce code is based on the original C++ code from https://www.codeproject.com/Articles/34194/Performing-emergency-shutdowns
+> The souce code is based on the original C++ code from an old article. You can head over to the [Reference](https://github.com/Yuzuk1Shimotsuki/Emergency-Shutdown-NT?tab=readme-ov-file#reference) section for more details.
 
 ## Background
 
@@ -50,14 +50,15 @@ So, I decided to rewrite the entire script from C++ into Python. And that's pret
 
 <br>
 
-There are 2 ways to use the code:
-- Using the `.exe` file
+There are 3 ways to use the code:
+
+1. Using the `.exe` file
    - Head over to [Release](https://github.com/Yuzuk1Shimotsuki/Emergency-Shutdown-NT/releases) section and download the lastest pre-compiled `.exe` file. Run it as an administrator.
      ```bash
      YOUR_DOWNLOAD_LOCATION\EmergencyShutdown.exe --YOUR_OPTION
      ```
   
-- Execute the source code
+2. Execute the source code
    - Download / Clone the repo and execute the `.py` source code in your Terminal. Run the Terminal as an administrator.
      ```bash
      git clone https://github.com/Yuzuk1Shimotsuki/Emergency-Shutdown-NT.git YOUR_LOCATION
@@ -67,7 +68,33 @@ There are 2 ways to use the code:
      YOUR_LOCATION\EmergencyShutdown.py --YOUR_OPTION
      ```
      
-Replace `YOUR_OPTION` with the options above.
+&emsp;Replace `YOUR_OPTION` with the options above.
+
+3. Importing the script as an module
+
+   ```python
+   import EmergencyShutdown
+
+   # You can then call it like this. e.g. For ShutdownNoReboot
+   EmergencyShutdown.emergency_shutdown(EmergencyShutdown.ShutdownAction.ShutdownNoReboot)
+
+   # For ShutdownReboot
+   EmergencyShutdown.emergency_shutdown(EmergencyShutdown.ShutdownAction.ShutdownReboot)
+
+   # For ShutdownPowerOff
+   EmergencyShutdown.emergency_shutdown(EmergencyShutdown.ShutdownAction.ShutdownPowerOff)
+   ```
+   
+   ```python
+   from EmergencyShutdown import ShutdownAction, emergency_shutdown    # Or you can just simply import *
+
+   # Then call it as follows
+   emergency_shutdown(ShutdownAction.ShutdownNoReboot)    # Can be ShutdownNoReboot, ShutdownReboot, ShutdownPowerOff 
+   ```
+
+## Reference
+
+hxhl95 (Mar 17, 2009), Performing emergency shutdowns. Retrieved from https://www.codeproject.com/Articles/34194/Performing-emergency-shutdowns
 
 ## License
 
