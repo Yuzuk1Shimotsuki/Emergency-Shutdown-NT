@@ -70,6 +70,7 @@ class ShutdownAction(Enum):
     Details are provided in the docstrings for each action.
 
     """
+
     ShutdownNoReboot = 0
     """
     Halts the system without rebooting or powering off.
@@ -121,27 +122,70 @@ NtShutdownSystem = ntdll.NtShutdownSystem
 NtShutdownSystem.argtypes = [ctypes.c_ulong]
 NtShutdownSystem.restype = ctypes.c_ulong
 
-# Function to enable the shutdown privilege
 def enable_shutdown_privilege():
-    was_enabled = ctypes.c_bool()
-    status = RtlAdjustPrivilege(SE_SHUTDOWN_PRIVILEGE, True, False, ctypes.byref(was_enabled))
-    if status != 0:
-        print(f"Failed to enable shutdown privilege. NTSTATUS: 0x{status:08X}")
-        sys.exit(1)
+    """
+    Enable the shutdown privilege for the current process.
+    
+    This is necessary to allow the process to perform shutdown operations.
 
-# Main function to perform the emergency shutdown
+    Returns
+    ----------
+
+    bool
+        Returns `True` if the privilege was successfully enabled, otherwise `False`.
+
+    """
+    return RtlAdjustPrivilege(SE_SHUTDOWN_PRIVILEGE, True, False, ctypes.byref(ctypes.c_bool())) == 0   # True if successful, False otherwise
+
 def emergency_shutdown(action: ShutdownAction):
-    print(f"Attempting shutdown: {action.name}")
-    enable_shutdown_privilege()
+    """
+    Perform an emergency shutdown of the system based on the specified action.
+    
+    Parameters
+    ----------
+    action : ShutdownAction
+        The action to perform, which can be one of the `ShutdownAction` enum values.
+
+    Returns
+    ----------
+    Any
+        Returns `True` if the shutdown operation was successful, otherwise raises `SystemExit` with an error message.
+
+        The return value is only useful for remote debugging, as the system will shut down immediately if you execute this script in your local environment.
+
+    Raises
+    ---------
+    SystemExit
+        An error message will be printed with the `NTSTATUS` code if the shutdown operation fails.
+
+    """
+    has_privilege = enable_shutdown_privilege()
+
+    if not has_privilege:
+        raise SystemExit(f"Failed to enable shutdown privilege. Please check if you are running this script with sufficient privileges (SE_SHUTDOWN_PRIVILEGE).", has_privilege)
+    
     status = NtShutdownSystem(action.value)
-    if status != 0:
-        print(f"Shutdown failed. NTSTATUS: 0x{status:08X}")
 
-    else:
-        print("Shutdown command issued successfully.")
+    if status != 0 and status == 3221225569:    # STATUS_PRIVILEGE_NOT_HELD, as this is the most common error when the process does not have the required privilege
+        raise SystemExit(f"Failed to issue the selected shutdown command. Please check if you are really sure about that the current process was has SE_SHUTDOWN_PRIVILEGE, and try again later. NTSTATUS: 0x{status:08X}", status)
+    
+    if status != 0:   # Other errors
+        raise SystemExit(f"Failed to issue the selected shutdown command. Please try again later. NTSTATUS: 0x{status:08X}", status)
+    
+    # The system may already be shutting down if you execute this script in your local environment. This was purposed for remote debugging.
+    return True
 
-# Helper function to parse command line arguments
 def parse_args():
+    """
+    Helper function to parse command line arguments
+    This is only used when the script is run directly from the command line.
+
+    Returns
+    ----------
+    argparse.Namespace
+        Returns the parsed command line arguments as an `argparse.Namespace` object.
+    
+    """
     class CustomArgumentParser(argparse.ArgumentParser):
         def error(self, message):
             self.print_help()
@@ -178,8 +222,7 @@ if __name__ == "__main__":
     else:
         # This should never happen theoretically due to the mutually exclusive group in argparse
         action = None
-        print("Error: No valid shutdown action provided.")
-        sys.exit(1)
+        raise SystemExit("Error: No valid shutdown action provided.", 1)
 
     # Shut down the system with the selected action
     emergency_shutdown(action)
