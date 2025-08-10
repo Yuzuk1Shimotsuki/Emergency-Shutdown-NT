@@ -22,7 +22,7 @@ One of the perfect example of Python to interact with low-level system APIs, sim
 
 ## Background
 
-I was wondering if there are any methods to simulate the long-press of Power Button or Reset button on my PC case, which I figured out the article mentioned above serval years ago.
+I was wondering if there are methods that "programmatically" simulates the long-press of Power Button or Reset button on my PC case, which I figured out the article mentioned above serval years ago.
 
 However, when I was planning to re-visit the artcle on my new PC, all the file links in that article were dead though the article still opens...
 
@@ -34,7 +34,7 @@ This was happened until a few months ago, when I was planning to integrate a Rem
 
 I then came up with an idea: Why not just rewrite it completely in Python? Why I'm just overcompilcating things?
 
-So, I decided to rewrite the entire script from C++ into Python. And that's pretty much it.
+In the end, I decided to rewrite the entire script from C++ into Python. And that's pretty much it.
 
 ## Features
 
